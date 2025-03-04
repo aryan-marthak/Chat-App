@@ -3,8 +3,8 @@ import Message from './Message'
 
 function Messages() {
     return (
-        <div>
-            <Message />
+        <div className=' min-h-[80vh]'>
+            <Message /> 
             <Message />
         </div>
     )

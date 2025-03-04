@@ -3,7 +3,7 @@ import User from './User'
 
 function Users() {
     return (
-        <div className=" my-2 max-h-[82vh] no-sc overflow-y-auto">
+        <div className="  max-h-[82vh] no-sc overflow-y-auto">
             <User />
             <User />
             <User />

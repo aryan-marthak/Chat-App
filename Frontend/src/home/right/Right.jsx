@@ -8,7 +8,9 @@ function Right() {
         <>
             <div className='w-[70%] text-white bg-slate-950'>
                 <ChatUser />
-                <Messages />
+                <div className='overflow-y-auto py-2 no-sc max-h-[80vh]'>
+                    <Messages />
+                </div>
                 <Type />
             </div>
         </>
