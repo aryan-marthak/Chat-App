@@ -6,3 +6,7 @@
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
+
+.no-sc ::-webkit-scrollbar{
+  display: none;
+}

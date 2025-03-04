@@ -9,6 +9,7 @@ function Left() {
                 <h1 className='font-bold text-3xl pt-4 px-7'>Chats</h1>
 
                 <Search />
+                <hr />
                 <Users />
             </div>
         </>
