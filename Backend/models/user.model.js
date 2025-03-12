@@ -7,7 +7,7 @@ const userSchema = mongoose.Schema({
     confirmpassword: { type: String, require: true },
 },
     {
-        timestamp: true,
+        timestamps: true,    
     }
 );
 
