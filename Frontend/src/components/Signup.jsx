@@ -3,6 +3,11 @@ import { useForm } from "react-hook-form";
 
 function Signup() {
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const password = watch("password")
+    const confirmpassword = watch("ConfirmPassword")
+    const validatePasswordMatch = (value) => {
+        return value === password || "Password and Confirm Password do not match";
+    };
     const onSubmit = data => console.log(data);
     return (
         <>
@@ -25,7 +30,7 @@ function Signup() {
                             </svg>
                             <input {...register("name", { required: true })} type="text" className="grow" placeholder="Username" />
                         </label>
-                        {errors.name && <span className = "text-red-600 text-sm" >**This field is required**</span>}
+                        {errors.name && <span className = "text-red-600 text-sm font-semibold" >**This field is required**</span>}
 
                         {/* email */}
 
@@ -42,7 +47,7 @@ function Signup() {
                             </svg>
                             <input {...register("email", { required: true })} type="text" className="grow" placeholder="Email" />
                         </label>
-                        {errors.email && <span className = "text-red-600 text-sm" >**This field is required**</span>}
+                        {errors.email && <span className = "text-red-600 text-sm font-semibold" >**This field is required**</span>}
 
 
                         {/* password */}
@@ -60,7 +65,7 @@ function Signup() {
                             </svg>
                             <input {...register("password", { required: true })} type="password" className="grow" placeholder="Password" />
                         </label>
-                        {errors.password && <span className = "text-red-600 text-sm" >**This field is required**</span>}
+                        {errors.password && <span className = "text-red-600 text-sm font-semibold" >**This field is required**</span>}
 
                         {/* confirmpassword */}
 
@@ -75,9 +80,9 @@ function Signup() {
                                     d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
                                     clipRule="evenodd" />
                             </svg>
-                            <input {...register("ConfirmPassword", { required: true })} type="password" className="grow" placeholder="Confirm Password" />
+                            <input {...register("ConfirmPassword", { required: true , validate:validatePasswordMatch})} type="password" className="grow" placeholder="Confirm Password" />
                         </label>
-                        {errors.ConfirmPassword && <span className = "text-red-600 text-sm" >**This field is required**</span>}
+                        {errors.ConfirmPassword && <span className = "text-red-600 text-sm font-semibold" >**{errors.confirmpassword.message}**</span>}
 
                         {/* Text & Button */}
                         <div className='flex justify-center'>
