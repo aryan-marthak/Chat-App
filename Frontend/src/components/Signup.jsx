@@ -9,22 +9,26 @@ function Signup() {
     const validatePasswordMatch = (value) => {
         return value === password || "Password and Confirm Password do not match";
     };
-    const onSubmit = (data) => {
+    const onSubmit = async(data) => {
         const userInfo = {
             name: data.name,
             email: data.email,
             password: data.password,
             confirmpassword: data.ConfirmPassword
         };
-        axios.post("http://localhost:5002/user/signup", userInfo)
+        await axios
+            .post("http://localhost:5002/user/signup", userInfo)
             .then((response) => {
                 console.log(response.data);
                 if (response.data) {
                     alert("Signup Successfull ! You can now log in.");
                 }
+                localStorage.setItem("messenger", JSON.stringify(response.data));
             })
             .catch((error) => {
-                console.error(error)
+                if (error.response) {
+                    alert("Error: " + error.response.data.error)
+                }
             });
     };
     return (
