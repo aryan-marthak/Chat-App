@@ -40,13 +40,27 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
     const { email, password } = req.body;
     try {
-        const user = await User.findOne({ email });
-        const isMatch = await bcrypt.compare(password, user.password)
-        if (!user || !isMatch) {
-            return res.status(404).json({ message: "Invalid User or Incorrect Password" });
+        console.log('Login attempt for email:', email);
+        
+        if (!email || !password) {
+            return res.status(400).json({ message: "Email and password are required" });
         }
+
+        const user = await User.findOne({ email });
+        if (!user) {
+            console.log('User not found:', email);
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            console.log('Invalid password for user:', email);
+            return res.status(401).json({ message: "Invalid password" });
+        }
+
+        console.log('Login successful for user:', email);
         createTokenAndSaveCookie(user._id, res);
-        res.status(201).json({
+        res.status(200).json({
             message: "User logged in successfully",
             user: {
                 name: user.name,
@@ -55,8 +69,8 @@ export const login = async (req, res) => {
             },
         });
     } catch (error) {
-        console.log(error)
-        res.status(500).json({ message: "Server error" });
+        console.error('Login error:', error);
+        res.status(500).json({ message: "Server error", error: error.message });
     }
 };
 
