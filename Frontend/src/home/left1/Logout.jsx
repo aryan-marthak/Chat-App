@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import Cookies from 'js-cookie'
+import { useState } from 'react'
 import { TbLogout2 } from "react-icons/tb"
 
 function Logout() {
