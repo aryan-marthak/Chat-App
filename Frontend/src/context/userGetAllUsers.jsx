@@ -3,9 +3,9 @@ import Cookies from 'js-cookie'
 import axios from 'axios'
 
 function userGetAllUsers() {
-
-    const[allUsers, setAllUsers] = useState([])
+    const [allUsers, setAllUsers] = useState([])
     const [loading, setLoading] = useState([])
+    
     useEffect(() => {
         const getUsers = async() => {
             setLoading(true)
@@ -28,4 +28,4 @@ function userGetAllUsers() {
     return [allUsers, loading];
 }
 
-export default userGetAllUsers
+export default userGetAllUsers;
