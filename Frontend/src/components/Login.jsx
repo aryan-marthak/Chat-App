@@ -26,7 +26,7 @@ export default function Login() {
                 password: data.password,
             };
             
-            const response = await axios.post("http://localhost:5002/user/login", userInfo, {
+            const response = await axios.post("/api/user/login", userInfo, {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json',

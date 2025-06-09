@@ -26,7 +26,7 @@ export default function Signup() {
             confirmpassword: data.ConfirmPassword
         };
         try {
-            const response = await axios.post("http://localhost:5002/user/signup", userInfo);
+            const response = await axios.post("/api/user/signup", userInfo);
             if (response.data) {
                 localStorage.setItem("messenger", JSON.stringify(response.data));
                 setAuthUser(response.data);
