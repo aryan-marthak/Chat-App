@@ -6,6 +6,7 @@ import Signup from './components/Signup'
 import Login from './components/Login'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from './context/AuthProvider'
+import Loading from './components/Loading'
 
 function App() {
   const { authUser, setAuthUser } = useAuth();
@@ -13,7 +14,7 @@ function App() {
 
   return (
     <>
-
+      {/* <Loading/> */}
       <Routes>
         <Route path="/" element={
           authUser ? (

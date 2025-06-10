@@ -1,9 +1,9 @@
 import React from 'react'
 import User from './User'
-import userGetAllUsers from '../../context/userGetAllUsers'
+import useGetAllUsers from '../../context/userGetAllUsers'
 
 function Users() {
-    const [allUsers, loading] = userGetAllUsers()
+    const [allUsers, loading] = useGetAllUsers()
     
     if (loading) {
         return <div className="max-h-[82vh] no-sc overflow-y-auto">Loading...</div>
