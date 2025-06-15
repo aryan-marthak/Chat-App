@@ -16,7 +16,7 @@ function Typesend() {
     return (
         <form onSubmit={handleSubmit}>
             <div className="flex space-x-1 h-[8vh]  bg-gray-800">
-                <div className=" w-[70%] mx-4">
+                <div className=" w-[93%] pt-[2px] mx-4">
                     <input
                         type="text"
                         placeholder="Type here"

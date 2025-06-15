@@ -22,7 +22,9 @@ export const SocketProvider = ({ children }) => {
                 reconnection: true,
                 reconnectionAttempts: 5,
                 reconnectionDelay: 1000,
-                transports: ['websocket', 'polling']
+                transports: ['websocket'],
+                forceNew: true,
+                timeout: 10000
             });
 
             socket.on("connect", () => {

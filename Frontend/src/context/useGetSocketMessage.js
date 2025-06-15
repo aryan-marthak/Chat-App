@@ -13,7 +13,9 @@ const useGetSocketMessage = () => {
         const handleNewMessage = (newMessage) => {
             const notification = new Audio(sound);
             notification.play();
-            setMessage([...messages, newMessage]);
+            if (!messages.some(msg => msg._id === newMessage._id)) {
+                setMessage([...messages, newMessage]);
+            }
         };
 
         socket.on("newMessage", handleNewMessage);
@@ -21,7 +23,7 @@ const useGetSocketMessage = () => {
         return () => {
             socket.off("newMessage", handleNewMessage);
         };
-    }, [socket, setMessage]);
+    }, [socket, setMessage, messages]);
 };
 
 export default useGetSocketMessage;
