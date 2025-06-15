@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import axios from 'axios';
 import { useAuth } from '../context/AuthProvider';
 import { Link, useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 // Configure axios defaults
 axios.defaults.withCredentials = true;
@@ -36,7 +37,22 @@ export default function Login() {
             console.log('Login response:', response.data);
             
             if (response.data && response.data.user) {
+                // Store user data in localStorage
                 localStorage.setItem("messenger", JSON.stringify(response.data.user));
+                
+                // Store token in cookie with proper options
+                if (response.data.token) {
+                    Cookies.set("jwt", response.data.token, {
+                        expires: 10, // 10 days
+                        secure: true,
+                        sameSite: 'strict',
+                        path: '/'
+                    });
+                    console.log('Token stored in cookie');
+                } else {
+                    console.log('No token in response');
+                }
+                
                 setAuthUser(response.data.user);
                 navigate('/');
             } else {

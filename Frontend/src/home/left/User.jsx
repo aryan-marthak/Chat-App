@@ -4,8 +4,18 @@ import useConversation from '../../stateManage/useConversation.js'
 function User({ user }) {
     const { selectedConversation, setSelectedConversation } = useConversation();
     const isSelected = selectedConversation?._id === user._id
+    
+    const handleSelectConversation = () => {
+        const conversation = {
+            _id: user._id,
+            name: user.name,
+            email: user.email
+        };
+        setSelectedConversation(conversation);
+    };
+
     return (
-        <div className={` hover:bg-slate-600 duration-300 ${isSelected?"bg-slate-700":""} `} onClick={()=>setSelectedConversation(user)}>
+        <div className={` hover:bg-slate-600 duration-300 ${isSelected?"bg-slate-700":""} `} onClick={handleSelectConversation}>
             <div className='flex space-x-4 px-7 py-4 hover:bg-slate-700 cursor-pointer duration-300'>
                 <div className="avatar avatar-online">
                     <div className="w-14 rounded-full">
