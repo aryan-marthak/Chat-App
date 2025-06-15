@@ -1,54 +1,29 @@
-import React, { useEffect, useState } from 'react'
-import Cookies from 'js-cookie'
-import axios from 'axios'
-
-function userGetAllUsers() {
-    const [allUsers, setAllUsers] = useState([])
-    const [loading, setLoading] = useState(true)
-    
+import React, { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import axios from "axios";
+function useGetAllUsers() {
+    const [allUsers, setAllUsers] = useState([]);
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
-        const getUsers = async() => {
+        const getUsers = async () => {
+            setLoading(true);
             try {
-                // Get token from localStorage first, then cookies
-                const storedUser = localStorage.getItem("messenger");
-                const user = storedUser ? JSON.parse(storedUser) : null;
                 const token = Cookies.get("jwt");
-                
-                console.log('Stored user:', user);
-                console.log('Token from cookie:', token ? 'exists' : 'not found');
-                
-                if (!token) {
-                    console.log('No token found in cookies');
-                    setLoading(false);
-                    return;
-                }
-
-                console.log('Making request to get users...');
-                const response = await axios.get("/api/user/getUserProfile", {
-                    withCredentials: true,
+                const response = await axios.get("/api/user/allusers", {
+                    credentials: "include",
                     headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
+                        Authorization: `Bearer ${token}`,
                     },
                 });
-                
-                console.log('Response from server:', response.data);
                 setAllUsers(response.data);
-            } catch (error) {
-                console.log("Error in userGetAllUsers:", error.response ? error.response.data : error.message);
-                if (error.response?.status === 401) {
-                    // If unauthorized, clear the token and user data
-                    Cookies.remove("jwt");
-                    localStorage.removeItem("messenger");
-                }
-            } finally {
                 setLoading(false);
+            } catch (error) {
+                console.log("Error in useGetAllUsers: " + error);
             }
         };
         getUsers();
     }, []);
-    
     return [allUsers, loading];
 }
 
-export default userGetAllUsers;
+export default useGetAllUsers;

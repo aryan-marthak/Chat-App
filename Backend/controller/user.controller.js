@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import createTokenAndSaveCookie from "../jwt/generateToken.js";
+
 export const signup = async (req, res) => {
     const { fullname, email, password, confirmPassword } = req.body;
     try {
@@ -25,7 +26,7 @@ export const signup = async (req, res) => {
                 message: "User created successfully",
                 user: {
                     _id: newUser._id,
-                    fullname: newUser.fullname,
+                    fullname: newUser.displayName,
                     email: newUser.email,
                 },
             });
@@ -35,6 +36,7 @@ export const signup = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 };
+
 export const login = async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -48,7 +50,7 @@ export const login = async (req, res) => {
             message: "User logged in successfully",
             user: {
                 _id: user._id,
-                fullname: user.fullname,
+                fullname: user.displayName,
                 email: user.email,
             },
         });
@@ -57,6 +59,7 @@ export const login = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 };
+
 export const logout = async (req, res) => {
     try {
         res.clearCookie("jwt");
@@ -73,8 +76,17 @@ export const allUsers = async (req, res) => {
         const filteredUsers = await User.find({
             _id: { $ne: loggedInUser },
         }).select("-password");
-        res.status(201).json(filteredUsers);
+        
+        // Transform the users to include displayName
+        const transformedUsers = filteredUsers.map(user => ({
+            _id: user._id,
+            fullname: user.displayName,
+            email: user.email
+        }));
+        
+        res.status(201).json(transformedUsers);
     } catch (error) {
         console.log("Error in allUsers Controller: " + error);
+        res.status(500).json({ error: "Internal server error" });
     }
 };
