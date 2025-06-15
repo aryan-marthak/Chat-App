@@ -1,39 +1,34 @@
-import express from "express"
+import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import userRoute from "./route/user.route.js"
-import messageRoute from "./route/message.route.js"
+import cors from "cors";
 import cookieParser from "cookie-parser";
-import cors from "cors"
 
-const app = express()
+import userRoute from "./routes/user.route.js";
+import messageRoute from "./routes/message.route.js";
+import { app, server } from "./SocketIO/server.js";
+
 dotenv.config();
 
-app.use(express.json())
+// middleware
+app.use(express.json());
+app.use(cookieParser());
+app.use(cors());
 
-app.use(cookieParser())
-
-// More permissive CORS configuration for development
-app.use(cors({
-    origin: true, // Allow all origins
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
-}));
-
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 3001;
 const URI = process.env.MONGODB_URI;
 
 try {
     mongoose.connect(URI);
-    console.log("MongoDB Connected");
+    console.log("Connected to MongoDB");
 } catch (error) {
-    console.log(error)
+    console.log(error);
 }
 
+//routes
 app.use("/api/user", userRoute);
 app.use("/api/message", messageRoute);
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`)
-})
+server.listen(PORT, () => {
+    console.log(`Server is Running on port ${PORT}`);
+});
